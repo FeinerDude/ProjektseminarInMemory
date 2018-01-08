@@ -1,4 +1,4 @@
-
+1. Abfrage
 -- MS SQL Server - 1.14 min Standard Join - done
 Select k.name, k.vorname, k.kreditorennr, k.land, 
 b.artbez, b.betraggesamt, b.menge, b.mwstgesamt, b.rabatmenge, 
@@ -9,7 +9,7 @@ Join Bestellung b On (k.kunnr = b.kunnr)
 Join Lieferdienst l On (b.bestellnr = l.bestellnr)
 Join Standorte s On (l.liefernr = s.liefernr)
 Order by k.name; 
-
+2. Abfrage
 -- MS SQL Server 2 - 1.12 min Standard Join mit Berechnungen -done
 Use Testdatenbank
 Select k.name, k.vorname, k.kreditorennr, k.land, 
@@ -32,14 +32,14 @@ Inner Join "XSA_ADMIN".Bestellung b On (k.kunnr = b.kunnr)
 Inner Join "XSA_ADMIN".Lieferdienst l On (b.bestellnr = l.bestellnr)
 Inner Join "XSA_ADMIN".Standorte s On (l.liefernr = s.liefernr)
 Order by k.name; 
-
+3. Abfrage
 -- durchschnittlicher Lieferdienstpreis, Bestellpreis, Mitarbeiterzahl
 Use Testdatenbank
 SELECT AVG (Lieferdienst.Preis) AS AVGLief, AVG (Bestellung.Preis) AS AVGBestell, AVG (Standorte.Mitarbeiteranzahl) AS AVGMit 
 FROM Lieferdienst, Bestellung, Standorte
 WHERE Standorte.Liefernr = Lieferdienst.Liefernr AND Bestellung.Bestellnr = Lieferdienst.Bestellnr
 GROUP BY AVGLief Desc;
-
+4. Abfrage
 --summe Fuhrparkgröße der bestellungen vom "bestimmtes datum"
 SELECT sum(s.fuhrparkgroeße) AS SummeFuhrparkgröße, b.Datum
 FROM Bestellung b 
@@ -49,7 +49,7 @@ Where b.Datum = 'dd.mm.yyyy'
 GROUP BY SummeFuhrparkgröße Desc
 
 
-
+5. Abfrage
 --durchschnittlicher RabattKunde für bestimmten kunden und die liefernummern der bestellungen
 Select AVG (RabattKunde) AS DurchschnittlicherRabattKunde, k.Name, l.Liefernr
 FROM Kunde k Join Bestellung b ON (k.Kunnr = b.Kunnr)
@@ -60,13 +60,13 @@ GROUP BY DurchschnittlicherRabattKunde;
 
 
 
-
+6. Abfrage
 --durchschnittliche anzahl der bestellungen pro lieferant.
 Select AVG (l.Bestellnr) As AVGBestellProLief, l.Unternehmen
 FROM Bestellung b 
 JOIN Lieferdienst l ON(b.Bestellnr = l.Bestellnr)
 Group BY AVGBestellProLief 
-
+7. Abfrage
 -- SummeBetragGesamt, Rechnung
 SELECT "Bestellnr" ,SUM("BetragGesamt")AS "SummeBetragGesamt",(SELECT SUM("MaxLieferMenge") FROM "XSA_ADMIN"."Lieferdienst") AS "Rechnung" 
 FROM "XSA_ADMIN"."Bestellungen"
